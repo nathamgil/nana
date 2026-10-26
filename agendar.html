@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendar horário · Nana Beleza & Bem Estar</title>
+<meta name="description" content="Escolha a unidade, o serviço, o profissional, o dia e a hora. Confirmação na hora, sem app e sem cadastro.">
+<meta name="theme-color" content="#231A13">
+<link rel="icon" href="fotos/perfil.jpg" type="image/jpeg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Agendar horário · Nana Beleza & Bem Estar">
+<meta property="og:description" content="Escolha a unidade, o serviço, o profissional, o dia e a hora. Confirmação na hora, sem app e sem cadastro.">
+<meta property="og:image" content="fotos/post-6.jpg">
+<meta property="og:locale" content="pt_BR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilo.css?v=20261026165519">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HairSalon","name":"Nana Beleza & Bem Estar",
+ "sameAs":["https://www.instagram.com/salaonanabelezaebemestar/"],
+ "department":[
+  {"@type":"HairSalon","name":"Nana Beleza & Bem Estar · Horto Florestal","telephone":"+55 71 3561-1791","address":{"@type":"PostalAddress","addressLocality":"Salvador","addressRegion":"BA","addressCountry":"BR"}},
+  {"@type":"HairSalon","name":"Nana Beleza & Bem Estar · Shopping Barra","telephone":"+55 71 3190-8225","address":{"@type":"PostalAddress","addressLocality":"Salvador","addressRegion":"BA","addressCountry":"BR"}},
+  {"@type":"HairSalon","name":"Nana Beleza & Bem Estar · Salvador Shopping","telephone":"+55 71 3901-3619","address":{"@type":"PostalAddress","addressLocality":"Salvador","addressRegion":"BA","addressCountry":"BR"}}]}
+</script>
+</head>
+<body>
+
+<div id="faixa-demo" class="faixa-demo" hidden>
+  <b>Versão de demonstração.</b> A agenda funciona de verdade aqui, mas os horários ficam só neste aparelho até ligarmos o banco de dados.
+</div>
+
+<header class="topo">
+  <div class="wrap topo-in">
+    <a class="marca" href="index.html" aria-label="Nana Beleza &amp; Bem Estar, início">
+      <img class="marca-logo" src="fotos/perfil.jpg" alt="" width="46" height="46">
+      <span><b>nana</b><small>Beleza &amp; Bem Estar</small></span>
+    </a>
+    <nav class="menu" aria-label="Principal">
+      <a href="index.html">Início</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="resultados.html">Resultados</a>
+      <a href="unidades.html">Unidades</a>
+      <a href="agendar.html#meu-horario">Meu horário</a>
+    </nav>
+    <a class="btn btn-prata" href="agendar.html">Agendar horário</a>
+    <button class="btn-menu" id="btn-menu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="gaveta">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="gaveta" id="gaveta">
+  <nav class="gaveta-in" aria-label="Menu">
+    <button class="gaveta-fechar" type="button" aria-label="Fechar menu">×</button>
+    <a class="link" href="index.html">Início</a>
+    <a class="link" href="servicos.html">Serviços</a>
+    <a class="link" href="resultados.html">Resultados</a>
+    <a class="link" href="unidades.html">Unidades</a>
+    <a class="link" href="agendar.html#meu-horario">Meu horário</a>
+    <a class="btn btn-prata" href="agendar.html">Agendar horário</a>
+    <a class="btn btn-linha" href="https://www.instagram.com/salaonanabelezaebemestar/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg> @salaonanabelezaebemestar</a>
+  </nav>
+</div>
+
+<section class="pagina-topo escuro">
+  <div class="wrap">
+    <p class="migalha"><a href="index.html">Início</a> / Agendar</p>
+    <p class="olho">Agendamento</p>
+    <h1>Marque seu horário <em>em poucos toques</em></h1>
+    <p class="sub">Escolha a unidade e veja só o que está vago de verdade. A confirmação sai na hora.</p>
+  </div>
+</section>
+
+<section class="secao agendar" id="agendar">
+  <div class="wrap">
+    <div class="painel" id="agendar-app">
+      <div class="passos passos-6" id="passos">
+        <div class="passo" data-estado="atual">1 · Unidade</div>
+        <div class="passo" data-estado="aberto">2 · Serviço</div>
+        <div class="passo" data-estado="aberto">3 · Com quem</div>
+        <div class="passo" data-estado="aberto">4 · Dia e hora</div>
+        <div class="passo" data-estado="aberto">5 · Seus dados</div>
+      </div>
+      <div class="escolhas" id="escolhas" hidden></div>
+
+      <div class="etapa" data-etapa="1" data-ativa>
+        <h3>Em qual unidade?</h3>
+        <p class="dica">Cada unidade tem a própria agenda e equipe.</p>
+        <div class="lista-unidades" id="lista-unidades"><div class="carregando">Carregando…</div></div>
+      </div>
+
+      <div class="etapa" data-etapa="2">
+        <h3>O que vamos fazer?</h3>
+        <p class="dica">O tempo muda conforme o serviço, por isso ele vem antes da hora.</p>
+        <div id="lista-servicos"></div>
+        <div class="acoes"><button class="voltar" type="button" data-voltar="1">← Trocar a unidade</button></div>
+      </div>
+
+      <div class="etapa" data-etapa="3">
+        <h3>Com quem?</h3>
+        <p class="dica">Escolha o profissional ou pegue o primeiro horário livre da unidade.</p>
+        <div class="lista-barbeiros" id="lista-barbeiros"></div>
+        <div class="acoes"><button class="voltar" type="button" data-voltar="2">← Trocar o serviço</button></div>
+      </div>
+
+      <div class="etapa" data-etapa="4">
+        <h3>Escolha o dia e a hora</h3>
+        <div class="fita" id="fita-dias"></div>
+        <p class="titulo-dia" id="titulo-dia"></p>
+        <div id="caixa-horas"></div>
+        <div class="acoes"><button class="voltar" type="button" data-voltar="3">← Trocar o profissional</button></div>
+      </div>
+
+      <div class="etapa" data-etapa="5">
+        <h3>Quase lá</h3>
+        <p class="dica">Só falta saber quem vem.</p>
+        <div class="resumo" id="resumo"></div>
+        <form id="form-cliente" novalidate>
+          <div class="campos">
+            <div class="campo">
+              <label for="cli-nome">Seu nome</label>
+              <input id="cli-nome" name="nome" type="text" autocomplete="name" placeholder="Como te chamam" required>
+            </div>
+            <div class="campo">
+              <label for="cli-tel">WhatsApp</label>
+              <input id="cli-tel" name="tel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(71) 9 0000-0000" required>
+              <p class="ajuda">É por ele que chega o lembrete na véspera. Não vai para lista de propaganda.</p>
+            </div>
+            <div class="campo">
+              <label for="cli-obs">Observação <span style="text-transform:none;letter-spacing:0;font-weight:400">(opcional)</span></label>
+              <textarea id="cli-obs" name="obs" maxlength="240" placeholder="Ex: quero iluminar, tenho foto de referência, cabelo com química"></textarea>
+            </div>
+          </div>
+          <div id="msg-form"></div>
+          <div class="acoes">
+            <button class="btn btn-prata" id="btn-confirmar" type="submit">Confirmar horário</button>
+            <button class="voltar" type="button" data-voltar="4">← Trocar a hora</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="etapa" data-etapa="6">
+        <div class="sucesso">
+          <div class="selo-ok" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <h3>Horário confirmado</h3>
+          <p class="com">com <span id="ok-barbeiro"></span></p>
+          <p class="dica" id="ok-linha" style="color:var(--cinza);margin:.4rem 0 1rem"></p>
+          <p style="font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cinza);font-weight:600">Seu código</p>
+          <div class="codigo" id="ok-codigo"></div>
+          <p style="max-width:34rem;margin:0 auto 1.4rem;color:var(--cinza);font-size:.95rem">
+            Na véspera, você recebe um lembrete no WhatsApp. Com esse código, você consulta ou cancela
+            sozinha, até 2 horas antes. Chegue uns 10 minutinhos antes.
+          </p>
+          <div class="acoes" style="justify-content:center">
+            <a class="btn btn-prata" id="ok-ics">Salvar no calendário com lembrete</a>
+            <a class="btn btn-zap" id="ok-zap" target="_blank" rel="noopener">Avisar no WhatsApp</a>
+            <button class="btn btn-linha" id="btn-novo" type="button">Marcar outro</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao" id="meu-horario" style="padding-top:0">
+  <div class="wrap dupla">
+    <div>
+      <p class="olho">Já marcou?</p>
+      <h2>Consultar ou cancelar</h2>
+      <p class="sub">
+        Deu imprevisto? Cancele por aqui mesmo, sem precisar ligar.
+        A vaga volta na hora para a agenda da unidade.
+        O cancelamento pelo site vale até <b>2 horas antes</b>.
+      </p>
+    </div>
+    <div class="cartao">
+      <form id="form-consulta">
+        <div class="campos">
+          <div class="campo">
+            <label for="con-codigo">Código do agendamento</label>
+            <input id="con-codigo" type="text" placeholder="Ex: A3F91C" style="text-transform:uppercase" required>
+          </div>
+          <div class="campo">
+            <label for="con-tel">WhatsApp usado</label>
+            <input id="con-tel" type="tel" inputmode="numeric" placeholder="(71) 9 0000-0000" required>
+          </div>
+          <button class="btn btn-escuro btn-bloco" type="submit">Buscar meu horário</button>
+        </div>
+      </form>
+      <div id="saida-consulta"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <div class="rodape-in">
+      <div style="max-width:22rem">
+        <a class="marca marca-clara" href="index.html"><img class="marca-logo" src="fotos/perfil.jpg" alt="" width="46" height="46"><span><b>nana</b><small>Beleza &amp; Bem Estar</small></span></a>
+        <p style="margin-top:1rem">Salão &amp; barbearia com 3 unidades em Salvador. Cor, corte, tratamentos Kérastase, maquiagem e penteado.</p>
+      </div>
+      <div>
+        <b class="rodape-titulo">Unidades</b>
+        <ul class="rodape-links rodape-unidades">
+          <li><b>Horto Florestal</b><a href="tel:+557135611791">(71) 3561-1791</a></li>
+          <li><b>Shopping Barra</b><a href="tel:+557131908225">(71) 3190-8225</a></li>
+          <li><b>Salvador Shopping</b><a href="tel:+557139013619">(71) 3901-3619</a></li>
+        </ul>
+      </div>
+      <div>
+        <b class="rodape-titulo">Navegar</b>
+        <ul class="rodape-links">
+          <li><a href="servicos.html">Serviços</a></li>
+          <li><a href="resultados.html">Resultados</a></li>
+          <li><a href="agendar.html">Agendar horário</a></li>
+          <li><a href="agendar.html#meu-horario">Consultar ou cancelar</a></li>
+          <li><a href="https://www.instagram.com/salaonanabelezaebemestar/" target="_blank" rel="noopener">@salaonanabelezaebemestar</a></li>
+          <li><a href="admin.html">Área da equipe</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="creditos">
+      <span>© <span id="ano"></span> Nana Beleza &amp; Bem Estar</span>
+      <span>Guardamos seu nome e WhatsApp só para organizar a agenda. Para apagar seus dados, é só pedir na unidade.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="flutua" href="agendar.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg> Agendar</a>
+
+<script src="assets/config.js?v=20261026165519"></script>
+<script src="assets/agenda.js?v=20261026165519"></script>
+<script src="assets/site.js?v=20261026165519"></script>
+</body>
+</html>

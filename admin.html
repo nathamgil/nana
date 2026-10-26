@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel · Nana Beleza & Bem Estar</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#231A13">
+<link rel="icon" href="fotos/perfil.jpg" type="image/jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilo.css?v=20261026165519">
+<style>
+  .barra-dia{display:flex;align-items:center;gap:.6rem;margin:1.2rem 0}
+  .barra-dia h2{font-size:1.3rem;flex:1}
+  .barra-dia h2::first-letter{text-transform:uppercase}
+  .barra-dia > button:not(.btn){width:42px;height:42px;border:1px solid var(--borda);border-radius:10px;display:grid;place-items:center}
+  .barra-dia > button:not(.btn):hover{border-color:var(--prata)}
+  .abas{display:flex;gap:.4rem;border-bottom:1px solid var(--borda);margin-bottom:1.4rem;overflow-x:auto}
+  .aba{padding:.75rem 1.1rem;font-size:.9rem;font-weight:700;color:var(--cinza);border-bottom:2px solid transparent;white-space:nowrap;min-height:44px}
+  .aba[aria-selected="true"]{color:var(--prata);border-bottom-color:var(--prata)}
+  .painel-aba{display:none} .painel-aba[data-ativa]{display:block}
+  .login{max-width:24rem;margin:5rem auto}
+  .filtro{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+  .filtro button{display:flex;align-items:center;gap:.5rem;padding:.35rem .9rem .35rem .35rem;border-radius:100px;border:1px solid var(--borda);background:var(--grafite);font-weight:700;font-size:.88rem;min-height:44px}
+  .filtro button img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:50% 22%}
+  .filtro button.todos{padding-left:.9rem}
+  .cli-topo{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-bottom:1rem}
+  .cli-busca{flex:1;min-width:14rem;max-width:22rem;padding:.75rem 1rem;border-radius:12px;border:1px solid var(--borda);background:var(--carvao);font:inherit}
+  .serv-linha{display:grid;grid-template-columns:1fr 8.5rem 7rem auto;gap:.8rem;align-items:end;padding:1rem 0;border-bottom:1px solid var(--borda)}
+  .serv-linha:last-child{border-bottom:0}
+  .serv-linha strong{font-family:var(--display);font-size:1.3rem;font-weight:600;display:block;line-height:1.2}
+  .serv-linha .campo label{font-size:.66rem}
+  .serv-linha .campo input{padding:.6rem .7rem}
+  .serv-linha .liga{display:flex;align-items:center;gap:.45rem;font-size:.86rem;min-height:44px;color:var(--cinza)}
+  .serv-linha .liga input{width:20px;height:20px;accent-color:var(--oliva)}
+  @media(max-width:700px){ .serv-linha{grid-template-columns:1fr 1fr} .serv-linha > div:first-child{grid-column:span 2} }
+  .filtro button[aria-pressed="true"]{border-color:var(--prata);background:rgba(169,130,74,.16);color:var(--prata-clara)}
+  .filtro-un button{padding-left:1rem}
+  .filtro-un button[aria-pressed="true"]{background:var(--oliva);color:var(--ouro-claro);border-color:var(--oliva)}
+  .barras{display:grid;gap:.8rem}
+  .barra-linha{display:grid;grid-template-columns:9rem 1fr auto;gap:.8rem;align-items:center;font-size:.93rem}
+  .barra-linha .trilho{height:14px;border-radius:100px;background:var(--grafite);overflow:hidden}
+  .barra-linha .trilho i{display:block;height:100%;border-radius:100px;background:var(--prata-gradiente)}
+  .barra-linha b{font-variant-numeric:tabular-nums}
+  @media(max-width:520px){ .barra-linha{grid-template-columns:6.5rem 1fr auto;font-size:.86rem} }
+  .bloco-res{margin-top:1.4rem}
+  .bloco-res h3{margin-bottom:.3rem}
+  .bloco-res .sub{margin:0 0 1rem;font-size:.95rem}
+  .funil{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+  .funil div{background:var(--grafite);border-radius:14px;padding:1rem}
+  .funil b{display:block;font-family:var(--display);font-size:2rem;line-height:1;color:var(--prata-clara)}
+  .funil span{font-size:.85rem;color:var(--cinza)}
+  @media(max-width:520px){ .funil{grid-template-columns:1fr} }
+  .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+  .chips button{padding:.45rem .9rem;border-radius:100px;border:1px solid var(--borda);font-weight:600;font-size:.86rem;min-height:40px;background:var(--carvao)}
+  .chips button[aria-pressed="true"]{background:var(--oliva);color:var(--ouro-claro);border-color:var(--oliva)}
+  .est{font-size:.7rem;color:var(--cinza);font-weight:500;letter-spacing:.04em}
+  .grupo-prof{margin-top:1rem}
+  .metrica b{font-size:clamp(1.5rem,6vw,2.2rem);line-height:1.1}
+  .agenda-item .tag{font-size:.62rem;letter-spacing:.06em;padding:.2rem .55rem}
+  @media(max-width:520px){ .agenda-item{grid-template-columns:4rem 1fr;gap:.7rem} }
+</style>
+</head>
+<body>
+
+<div id="faixa-demo" class="faixa-demo" hidden>
+  <b>Modo demonstração.</b> Mostrando os agendamentos guardados neste aparelho, com clientes de exemplo. Sem login.
+</div>
+
+<!-- ---------- LOGIN ---------- -->
+<div class="wrap login" id="tela-login" hidden>
+  <div class="cartao">
+    <div class="marca" style="margin-bottom:1rem"><img class="marca-logo" src="fotos/perfil.jpg" alt=""><span><b>nana</b><small>Beleza &amp; Bem Estar</small></span></div>
+    <h2 style="font-size:1.6rem;margin-bottom:1.2rem">Área do salão</h2>
+    <form id="form-login">
+      <div class="campos">
+        <div class="campo">
+          <label for="lg-email">E-mail</label>
+          <input id="lg-email" type="email" autocomplete="username" required>
+        </div>
+        <div class="campo">
+          <label for="lg-senha">Senha</label>
+          <input id="lg-senha" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-prata btn-bloco" type="submit">Entrar</button>
+      </div>
+    </form>
+    <div id="msg-login"></div>
+  </div>
+</div>
+
+<!-- ---------- PAINEL ---------- -->
+<div id="tela-painel" hidden>
+  <header class="topo">
+    <div class="wrap topo-in">
+      <a class="marca" href="index.html">
+        <img class="marca-logo" src="fotos/perfil.jpg" alt="">
+        <span><b>nana</b><small id="quem-logado">Painel da rede</small></span>
+      </a>
+      <button class="btn btn-linha mini" id="btn-sair" type="button">Sair</button>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-top:1.4rem;padding-bottom:5rem">
+
+    <div class="filtro filtro-un" id="filtro-unidade" aria-label="Unidade"></div>
+    <div class="filtro" id="filtro" aria-label="Ver a agenda de"></div>
+
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true"  data-aba="dia">Dia</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="resultados">Resultados</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="proximos">Próximos</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="clientes">Clientes</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="servicos">Serviços e preços</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="folgas">Folgas e feriados</button>
+    </div>
+
+    <!-- aba: dia -->
+    <section class="painel-aba" data-painel="dia" data-ativa>
+      <div class="barra-dia">
+        <button id="dia-menos" type="button" aria-label="Dia anterior">←</button>
+        <h2 id="titulo-dia">—</h2>
+        <button id="dia-hoje" class="btn btn-linha mini" type="button">Hoje</button>
+        <button id="dia-mais" type="button" aria-label="Próximo dia">→</button>
+      </div>
+
+      <div class="metricas">
+        <div class="metrica"><b id="m-total">0</b><span>Na agenda</span></div>
+        <div class="metrica"><b id="m-valor">R$ 0</b><span>Faturamento do dia <i class="est">estimativa (exemplo)</i></span></div>
+        <div class="metrica"><b id="m-mes">R$ 0</b><span>Faturamento do mês <i class="est">estimativa (exemplo)</i></span></div>
+        <div class="metrica"><b id="m-livre">—</b><span id="m-livre-rot">1º horário livre</span></div>
+      </div>
+
+      <div class="cartao" id="lista-dia"></div>
+    </section>
+
+    <!-- aba: resultados -->
+    <section class="painel-aba" data-painel="resultados">
+      <p class="sub" style="margin-top:0">Mês atual. Valores estimados com dados de exemplo, só para mostrar como o painel fica.</p>
+      <div class="cartao bloco-res"><h3>Faturamento por unidade</h3><p class="sub">Atendimentos concluídos e marcados no mês.</p><div class="barras" id="r-unidades"></div></div>
+      <div class="cartao bloco-res"><h3>De onde vêm os agendamentos</h3><p class="sub">Cada link do Instagram, do Google e dos anúncios chega marcado. É assim que se mede o retorno do tráfego pago.</p><div class="barras" id="r-origem"></div></div>
+      <div class="cartao bloco-res"><h3>Reativação</h3><p class="sub">Clientes que não voltam há 60 dias ou mais e não têm nada marcado.</p><div class="funil" id="r-funil"></div>
+        <div class="acoes" style="margin-top:1rem"><button class="btn btn-prata" type="button" id="r-ver-sumidas">Ver a lista com WhatsApp pronto</button></div></div>
+    </section>
+
+    <!-- aba: próximos -->
+    <section class="painel-aba" data-painel="proximos">
+      <p class="sub" style="margin-top:0">Tudo o que está marcado daqui para frente.</p>
+      <div class="cartao" id="lista-proximos" style="margin-top:1.2rem"></div>
+    </section>
+
+    <!-- aba: clientes -->
+    <section class="painel-aba" data-painel="clientes">
+      <div class="metricas">
+        <div class="metrica"><b id="c-total">0</b><span>Clientes</span></div>
+        <div class="metrica"><b id="c-sumidas">0</b><span>Sem voltar há 60+ dias</span></div>
+        <div class="metrica"><b id="c-fieis">0</b><span>Voltaram 2x ou mais</span></div>
+        <div class="metrica"><b id="c-niver">0</b><span>Aniversariantes do mês</span></div>
+      </div>
+      <div class="cli-topo">
+        <p class="sub" style="margin:0;max-width:40rem">
+          Quem já passou do tempo de voltar (retoque, hidratação, cor…) e não tem nada marcado aparece primeiro,
+          com a mensagem de WhatsApp pronta. É só tocar e enviar. <span hidden id="c-dias"></span>
+        </p>
+        <input class="cli-busca" id="c-busca" type="search" placeholder="Buscar por nome ou WhatsApp">
+      </div>
+      <div class="chips" id="c-chips">
+        <button type="button" data-c="todas" aria-pressed="true">Todas</button>
+        <button type="button" data-c="sumidas" aria-pressed="false">Não voltam há 60+ dias</button>
+        <button type="button" data-c="voltar" aria-pressed="false">Hora de voltar</button>
+        <button type="button" data-c="niver" aria-pressed="false">Aniversariantes do mês</button>
+      </div>
+      <div class="cartao" id="lista-clientes"></div>
+    </section>
+
+    <!-- aba: serviços -->
+    <section class="painel-aba" data-painel="servicos">
+      <p class="sub" style="margin-top:0">
+        Preço e tempo de cada serviço. O que você salvar aqui muda o site na hora.
+        Deixe o preço em branco para aparecer "sob consulta".
+      </p>
+      <div class="cartao" style="margin-top:1.2rem" id="lista-servicos-adm"></div>
+      <div id="msg-servicos"></div>
+    </section>
+
+    <!-- aba: folgas -->
+    <section class="painel-aba" data-painel="folgas">
+      <div class="dupla" style="align-items:start">
+        <div>
+          <h3>Fechar um horário</h3>
+          <p class="sub" style="margin-top:.5rem">
+            Folga, médico, feriado ou compromisso. O que você bloquear aqui some
+            da agenda do cliente na hora.
+          </p>
+          <div class="cartao" style="margin-top:1.2rem">
+            <form id="form-bloqueio">
+              <div class="campos">
+                <div class="campo">
+                  <label for="bl-quem">De quem</label>
+                  <select id="bl-quem"></select>
+                </div>
+                <div class="campo">
+                  <label for="bl-data">Dia</label>
+                  <input id="bl-data" type="date" required>
+                </div>
+                <div class="campo">
+                  <label for="bl-tipo">O quanto fechar</label>
+                  <select id="bl-tipo">
+                    <option value="dia">O dia inteiro</option>
+                    <option value="feriado">Só depois das 14h (feriado)</option>
+                    <option value="manha">Só a manhã (até 12h)</option>
+                    <option value="tarde">Só a tarde (depois das 13h)</option>
+                    <option value="faixa">Escolher a faixa de horas</option>
+                  </select>
+                </div>
+                <div class="campo" id="campo-faixa" hidden>
+                  <label>Das / às</label>
+                  <div style="display:flex;gap:.6rem">
+                    <input id="bl-de"  type="time" value="12:00">
+                    <input id="bl-ate" type="time" value="14:00">
+                  </div>
+                </div>
+                <div class="campo">
+                  <label for="bl-motivo">Motivo (só a equipe vê)</label>
+                  <input id="bl-motivo" type="text" placeholder="Ex: consulta, viagem, feriado">
+                </div>
+                <button class="btn btn-prata btn-bloco" type="submit">Fechar esse horário</button>
+              </div>
+            </form>
+            <div id="msg-bloqueio"></div>
+          </div>
+        </div>
+        <div>
+          <h3>Já bloqueados</h3>
+          <div class="cartao" style="margin-top:1.2rem" id="lista-bloqueios"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js?v=20261026165519"></script>
+<!-- só para semear a demonstração quando o painel é aberto antes do site -->
+<script src="assets/agenda.js?v=20261026165519"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CFG  = window.TV;
+  var DEMO = CFG.modoDemo;
+  var sb   = null;
+
+  var SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  var MESES  = ['janeiro','fevereiro','março','abril','maio','junho','julho',
+                'agosto','setembro','outubro','novembro','dezembro'];
+
+  function $(s){ return document.querySelector(s); }
+  function el(t,c,x){ var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; }
+  function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function deIso(s){ var p=String(s).split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  function hhmm(t){ return String(t).slice(0,5); }
+  function minutos(t){ var p=String(t).split(':'); return (+p[0])*60+(+p[1]); }
+  function dinheiro(c){ return 'R$ '+(c/100).toFixed(2).replace('.',','); }
+  function dinheiroCurto(c){ var r = c/100; return r >= 100000 ? 'R$ ' + (r/1000).toFixed(0) + ' mil' : 'R$ ' + Math.round(r).toLocaleString('pt-BR'); }
+  function porExtenso(s){ var d=deIso(s); return SEMANA[d.getDay()]+', '+d.getDate()+' de '+MESES[d.getMonth()]; }
+  function aviso(cx,cls,txt){ cx.innerHTML=''; cx.appendChild(el('div','aviso '+cls,txt)); }
+
+  var barbeiros = [];
+  var filtro = null;       // null = todos; senão id do profissional
+  var unidade = null;      // null = rede toda; senão id da unidade
+  var cFiltro = 'todas';
+  function curtoUn(id){ var u = CFG.unidadePorId(id); return u ? u.curto : ''; }
+  function nomeDe(id){ var b = barbeiros.filter(function(x){ return x.id===id; })[0]; return b ? b.nome + (unidade ? '' : ' · ' + curtoUn(b.unidade)) : ''; }
+  function daUnidade(){ return barbeiros.filter(function(b){ return !unidade || b.unidade === unidade; }); }
+
+  /* ---------------- fonte de dados ---------------- */
+
+  function demoLidos(){ try { return JSON.parse(localStorage.getItem('nn_agendamentos_demo')||'[]'); } catch(e){ return []; } }
+  function demoBloqueios(){ try { return JSON.parse(localStorage.getItem('nn_bloqueios_demo')||'[]'); } catch(e){ return []; } }
+  function demoGravaBloqueios(l){ try { localStorage.setItem('nn_bloqueios_demo', JSON.stringify(l)); } catch(e){} }
+
+  function doFiltro(a){ return (!unidade || a.unidade_id === unidade) && (!filtro || a.barbeiro_id === filtro); }
+
+  var DADOS = {
+    barbeiros: function () {
+      if (DEMO) return Promise.resolve(CFG.barbeirosDemo.slice());
+      return sb.from('barbeiros').select('id,slug,nome,cargo,foto,user_id,unidade:unidade_id').eq('ativo', true).order('ordem')
+        .then(function(r){ if(r.error) throw r.error; return r.data; });
+    },
+    doDia: function (dataIso) {
+      if (DEMO) {
+        return Promise.resolve(demoLidos().filter(function(a){ return a.dia===dataIso; })
+          .map(normalizaDemo).filter(doFiltro)
+          .sort(function(a,b){ return minutos(a.inicio)-minutos(b.inicio); }));
+      }
+      var q = sb.from('agendamentos').select('*').eq('data', dataIso).order('inicio', { ascending: true });
+      if (filtro) q = q.eq('barbeiro_id', filtro);
+      if (unidade) q = q.eq('unidade_id', unidade);
+      return q.then(function(r){ if(r.error) throw r.error; return r.data.map(normalizaReal); });
+    },
+    proximos: function () {
+      var hoje = iso(new Date());
+      if (DEMO) {
+        return Promise.resolve(demoLidos()
+          .filter(function(a){ return a.dia>=hoje && a.status==='confirmado'; })
+          .map(normalizaDemo).filter(doFiltro)
+          .sort(function(a,b){ return (a.dia+a.inicio) < (b.dia+b.inicio) ? -1 : 1; }));
+      }
+      var q = sb.from('agendamentos').select('*').gte('data', hoje).eq('status','confirmado');
+      if (filtro) q = q.eq('barbeiro_id', filtro);
+      return q.order('data',{ascending:true}).order('inicio',{ascending:true}).limit(120)
+        .then(function(r){ if(r.error) throw r.error; return r.data.map(normalizaReal); });
+    },
+    bloqueios: function () {
+      var hoje = iso(new Date());
+      if (DEMO) return Promise.resolve(demoBloqueios().filter(function(b){ return b.data>=hoje; }));
+      return sb.from('bloqueios').select('*').gte('data', hoje).order('data',{ascending:true})
+        .then(function(r){ if(r.error) throw r.error; return r.data; });
+    },
+    criarBloqueio: function (b) {
+      if (DEMO) {
+        var l = demoBloqueios();
+        b.id = String(Math.random()).slice(2,10);
+        l.push(b); demoGravaBloqueios(l);
+        return Promise.resolve();
+      }
+      return sb.from('bloqueios').insert(b).then(function(r){ if(r.error) throw r.error; });
+    },
+    apagarBloqueio: function (id) {
+      if (DEMO) {
+        demoGravaBloqueios(demoBloqueios().filter(function(b){ return b.id!==id; }));
+        return Promise.resolve();
+      }
+      return sb.from('bloqueios').delete().eq('id', id).then(function(r){ if(r.error) throw r.error; });
+    },
+    historico: function () {
+      if (DEMO) return Promise.resolve(demoLidos().map(normalizaDemo));
+      return sb.from('agendamentos').select('*').order('data',{ascending:false}).limit(2000)
+        .then(function(r){ if(r.error) throw r.error; return r.data.map(normalizaReal); });
+    },
+    servicos: function () {
+      if (DEMO) return Promise.resolve(CFG.servicosDemoTodos.slice());
+      return sb.from('servicos').select('*').order('ordem')
+        .then(function(r){ if(r.error) throw r.error; return r.data; });
+    },
+    salvarServico: function (s, campos) {
+      if (DEMO) {
+        var aj = {};
+        try { aj = JSON.parse(localStorage.getItem('nn_servicos_demo')||'{}') || {}; } catch(e){}
+        aj[s.id] = campos;
+        try { localStorage.setItem('nn_servicos_demo', JSON.stringify(aj)); } catch(e){}
+        CFG.servicosDemoTodos.forEach(function(x){ if (x.id===s.id) for (var k in campos) x[k]=campos[k]; });
+        return Promise.resolve();
+      }
+      return sb.from('servicos').update(campos).eq('id', s.id).then(function(r){ if(r.error) throw r.error; });
+    },
+    mudarStatus: function (a, status) {
+      if (DEMO) {
+        var l = demoLidos();
+        l.forEach(function(x){ if(x.codigo===a.codigo) x.status = status; });
+        try { localStorage.setItem('nn_agendamentos_demo', JSON.stringify(l)); } catch(e){}
+        return Promise.resolve();
+      }
+      var campos = { status: status };
+      if (status === 'cancelado') campos.cancelado_em = new Date().toISOString();
+      return sb.from('agendamentos').update(campos).eq('codigo', a.codigo)
+        .then(function(r){ if(r.error) throw r.error; });
+    }
+  };
+
+  function normalizaDemo(a){
+    return { codigo:a.codigo, unidade_id:a.unidade_id, origem:a.origem || 'Site direto', barbeiro_id:a.barbeiro_id, barbeiro:a.barbeiro, servico:a.servico,
+             preco:a.preco_centavos, servico_id:a.servico_id, nome:a.nome, telefone:a.telefone, dia:a.dia,
+             inicio:a.inicio, fim:a.fim, obs:a.obs, status:a.status };
+  }
+  function normalizaReal(a){
+    return { codigo:a.codigo, unidade_id:a.unidade_id, origem:a.origem, barbeiro_id:a.barbeiro_id, barbeiro:a.barbeiro_nome, servico:a.servico_nome,
+             preco:a.preco_centavos, servico_id:a.servico_id, nome:a.cliente_nome, telefone:a.cliente_telefone, dia:a.data,
+             inicio:hhmm(a.inicio), fim:hhmm(a.fim), obs:a.observacao, status:a.status };
+  }
+
+  /* ---------------- filtro por profissional ---------------- */
+
+  function pintaFiltro() {
+    var cu = $('#filtro-unidade');
+    cu.innerHTML = '';
+    [{ id: null, curto: 'Rede toda' }].concat(CFG.unidades).forEach(function (u) {
+      var b = el('button', null, u.curto); b.type = 'button';
+      b.setAttribute('aria-pressed', unidade === u.id ? 'true' : 'false');
+      b.addEventListener('click', function(){ unidade = u.id; filtro = null; atualizaTudo(); });
+      cu.appendChild(b);
+    });
+    var cx = $('#filtro');
+    cx.innerHTML = '';
+    // profissionais só aparecem com uma unidade escolhida
+    cx.hidden = !unidade;
+    var todos = el('button','todos','Unidade toda');
+    todos.type = 'button';
+    todos.setAttribute('aria-pressed', filtro ? 'false' : 'true');
+    todos.addEventListener('click', function(){ filtro = null; atualizaTudo(); });
+    cx.appendChild(todos);
+    daUnidade().forEach(function (b) {
+      var bt = el('button');
+      bt.type = 'button';
+      bt.setAttribute('aria-pressed', filtro === b.id ? 'true' : 'false');
+      bt.appendChild(document.createTextNode(b.nome));
+      bt.addEventListener('click', function(){ filtro = b.id; atualizaTudo(); });
+      cx.appendChild(bt);
+    });
+  }
+
+  function atualizaTudo() {
+    pintaFiltro();
+    // a folga nova vai para quem está sendo visto — evita fechar a agenda do sócio errado
+    if (filtro) $('#bl-quem').value = filtro;
+    var aba = document.querySelector('.aba[aria-selected="true"]').getAttribute('data-aba');
+    if (aba === 'dia') pintaDia();
+    if (aba === 'proximos') pintaProximos();
+    if (aba === 'folgas') pintaBloqueios();
+    if (aba === 'clientes') pintaClientes();
+    if (aba === 'servicos') pintaServicos();
+    if (aba === 'resultados') pintaResultados();
+  }
+
+  /* ---------------- desenho da agenda ---------------- */
+
+  var diaAtual = new Date();
+
+  function pintaDia() {
+    var d = iso(diaAtual);
+    $('#titulo-dia').textContent = porExtenso(d);
+    var cx = $('#lista-dia');
+    cx.innerHTML = '<div class="carregando">Carregando…</div>';
+
+    DADOS.doDia(d).then(function (lista) {
+      var ativos = lista.filter(function(a){ return a.status!=='cancelado' && a.status!=='faltou'; });
+      var conf   = lista.filter(function(a){ return a.status==='confirmado'; });
+
+      $('#m-total').textContent = ativos.length;
+      var totalDia = ativos.reduce(function(s,a){ return s+a.preco; },0);
+      $('#m-valor').textContent = totalDia ? dinheiroCurto(totalDia) : '—';
+      $('#m-valor').title = totalDia ? '' : 'Preencha os preços na aba Serviços e preços';
+      DADOS.historico().then(function (h) {
+        var mes = d.slice(0,7);
+        var tot = h.filter(function(a){ return doFiltro(a) && String(a.dia).slice(0,7)===mes && (a.status==='concluido'||a.status==='confirmado'); })
+                   .reduce(function(s,a){ return s + (a.preco||0); },0);
+        $('#m-mes').textContent = tot ? dinheiroCurto(tot) : '—';
+      });
+
+      var exp = CFG.expediente[deIso(d).getDay()];
+      if (filtro) {
+        $('#m-livre-rot').textContent = '1º horário livre';
+        $('#m-livre').textContent = !exp || !exp.aberto ? 'Fechado' : primeiroBuraco(conf, exp, d);
+      } else {
+        $('#m-livre-rot').textContent = unidade ? 'Por profissional' : 'Por unidade';
+        var porB = unidade ? daUnidade().map(function(b){
+          return b.nome + ' ' + ativos.filter(function(a){ return a.barbeiro_id===b.id; }).length;
+        }) : CFG.unidades.map(function(u){
+          return u.curto + ' ' + ativos.filter(function(a){ return a.unidade_id===u.id; }).length;
+        });
+        $('#m-livre').textContent = porB.join(' · ');
+        $('#m-livre').style.fontSize = '1rem';
+      }
+      if (filtro) $('#m-livre').style.fontSize = '';
+
+      cx.innerHTML = '';
+      if (!lista.length) {
+        var v = el('div','vazio');
+        v.appendChild(el('b', null, exp && exp.aberto ? 'Agenda vazia' : 'Dia fechado'));
+        v.appendChild(el('p', null, exp && exp.aberto
+          ? 'Nenhum cliente marcado para esse dia ainda.'
+          : 'A unidade não abre nesse dia da semana.'));
+        cx.appendChild(v);
+        return;
+      }
+      // agenda por profissional (e por unidade quando é a rede toda)
+      var grupos = {}, ordem = [];
+      lista.forEach(function (a) {
+        var k = a.unidade_id + '|' + a.barbeiro_id;
+        if (!grupos[k]) { grupos[k] = []; ordem.push(k); }
+        grupos[k].push(a);
+      });
+      ordem.sort();
+      ordem.forEach(function (k) {
+        var g = grupos[k], a0 = g[0];
+        var t = el('div','turno grupo-prof', (a0.barbeiro || nomeDe(a0.barbeiro_id)) + (unidade ? '' : ' · ' + curtoUn(a0.unidade_id)) + ' · ' + g.length + (g.length > 1 ? ' clientes' : ' cliente'));
+        cx.appendChild(t);
+        g.forEach(function (a) { cx.appendChild(linhaAgendamento(a, pintaDia)); });
+      });
+    }).catch(function (e) { aviso(cx, 'aviso-erro', e.message || 'Falha ao carregar.'); });
+  }
+
+  // Primeiro buraco na agenda de UMA profissional. Se o dia for hoje, conta de agora.
+  function primeiroBuraco(conf, exp, diaIso) {
+    var m = minutos(exp.abre), fecha = minutos(exp.fecha);
+    if (diaIso === iso(new Date())) {
+      var agora = new Date();
+      m = Math.max(m, Math.ceil((agora.getHours()*60 + agora.getMinutes()) / 10) * 10);
+    }
+    var pausa = exp.pausa ? [minutos(exp.pausa[0]), minutos(exp.pausa[1])] : null;
+    var ordenados = conf.slice().sort(function(a,b){ return minutos(a.inicio)-minutos(b.inicio); });
+    for (var i=0; i<=ordenados.length; i++) {
+      if (pausa && m >= pausa[0] && m < pausa[1]) m = pausa[1];
+      if (i === ordenados.length || minutos(ordenados[i].inicio) > m) break;
+      m = Math.max(m, minutos(ordenados[i].fim));
+    }
+    if (m >= fecha) return 'Cheio';
+    return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+  }
+
+  function linhaAgendamento(a, recarrega) {
+    var item = el('div','agenda-item');
+
+    var hora = el('div','agenda-hora', a.inicio);
+    hora.appendChild(el('small', null, 'até '+a.fim));
+    item.appendChild(hora);
+
+    var corpo = el('div','agenda-corpo');
+    var topo = el('div');
+    topo.style.cssText = 'display:flex;gap:.5rem;align-items:center;flex-wrap:wrap';
+    topo.appendChild(el('strong', null, a.nome));
+    if (!filtro) topo.appendChild(el('span','tag tag-barbeiro', (a.barbeiro || nomeDe(a.barbeiro_id)) + (unidade ? '' : ' · ' + curtoUn(a.unidade_id))));
+    if (a.origem) topo.appendChild(el('span','tag', 'via ' + a.origem));
+    corpo.appendChild(topo);
+    corpo.appendChild(el('span', null, a.servico + ' · ' + (a.preco ? '~' + dinheiro(a.preco) : 'valor sob consulta') + ' · código ' + a.codigo));
+    if (a.obs) {
+      var o = el('span', null, '“' + a.obs + '”');
+      o.style.cssText = 'color:var(--prata);display:block';
+      corpo.appendChild(o);
+    }
+
+    var acoes = el('div','acoes');
+    acoes.style.marginTop = '.6rem';
+
+    var zap = el('a','btn btn-zap mini','WhatsApp');
+    zap.href = 'https://wa.me/55' + String(a.telefone).replace(/^55/,'') +
+      '?text=' + encodeURIComponent('Oi ' + a.nome.split(' ')[0] + '! Aqui é da Nana ' + curtoUn(a.unidade_id) + '. Sobre seu horário de ' + porExtenso(a.dia) + ' às ' + a.inicio + ':');
+    zap.target = '_blank'; zap.rel = 'noopener';
+    acoes.appendChild(zap);
+
+    if (a.status === 'confirmado') {
+      [['concluido','Atendido'],['faltou','Não veio'],['cancelado','Cancelar']].forEach(function (par) {
+        var b = el('button','btn btn-linha mini', par[1]);
+        b.type = 'button';
+        b.addEventListener('click', function () {
+          if (par[0] !== 'concluido' && !confirm('Marcar o horário de ' + a.nome + ' como "' + par[1] + '"?')) return;
+          b.disabled = true;
+          DADOS.mudarStatus(a, par[0]).then(recarrega)
+            .catch(function(e){ alert(e.message || 'Não consegui atualizar.'); b.disabled = false; });
+        });
+        acoes.appendChild(b);
+      });
+    } else {
+      acoes.appendChild(el('span','tag ' + (a.status==='concluido' ? 'tag-fim' : 'tag-off'),
+        a.status==='concluido' ? 'Atendido' : a.status==='faltou' ? 'Não veio' : 'Cancelado'));
+    }
+
+    corpo.appendChild(acoes);
+    item.appendChild(corpo);
+    return item;
+  }
+
+  function pintaProximos() {
+    var cx = $('#lista-proximos');
+    cx.innerHTML = '<div class="carregando">Carregando…</div>';
+    DADOS.proximos().then(function (lista) {
+      cx.innerHTML = '';
+      if (!lista.length) {
+        var v = el('div','vazio');
+        v.appendChild(el('b', null, 'Nada marcado'));
+        v.appendChild(el('p', null, 'Assim que alguém agendar pelo site, aparece aqui.'));
+        return cx.appendChild(v);
+      }
+      var diaAnterior = null;
+      lista.forEach(function (a) {
+        if (a.dia !== diaAnterior) {
+          diaAnterior = a.dia;
+          var t = el('div','turno', porExtenso(a.dia));
+          t.style.marginTop = '1.2rem';
+          cx.appendChild(t);
+        }
+        cx.appendChild(linhaAgendamento(a, pintaProximos));
+      });
+    }).catch(function (e) { aviso(cx, 'aviso-erro', e.message || 'Falha ao carregar.'); });
+  }
+
+  function pintaBloqueios() {
+    var cx = $('#lista-bloqueios');
+    cx.innerHTML = '<div class="carregando">Carregando…</div>';
+    DADOS.bloqueios().then(function (lista) {
+      lista = lista.filter(function(b){ return !filtro || !b.barbeiro_id || b.barbeiro_id === filtro; });
+      cx.innerHTML = '';
+      if (!lista.length) return cx.appendChild(el('p','vazio','Nenhum dia fechado por enquanto.'));
+      lista.forEach(function (b) {
+        var item = el('div','agenda-item');
+        var h = el('div','agenda-hora', hhmm(b.hora_inicio));
+        h.appendChild(el('small', null, 'até ' + hhmm(b.hora_fim)));
+        item.appendChild(h);
+        var corpo = el('div','agenda-corpo');
+        corpo.appendChild(el('strong', null, porExtenso(b.data)));
+        corpo.appendChild(el('span','tag tag-barbeiro', b.barbeiro_id ? nomeDe(b.barbeiro_id) : 'Casa toda'));
+        corpo.appendChild(el('span', null, ' ' + (b.motivo || 'Sem motivo anotado')));
+        var rm = el('button','btn btn-linha mini','Reabrir');
+        rm.type = 'button';
+        rm.style.cssText = 'margin-top:.5rem;display:flex';
+        rm.addEventListener('click', function () {
+          if (!confirm('Reabrir esse horário para agendamento?')) return;
+          DADOS.apagarBloqueio(b.id).then(pintaBloqueios).catch(function(e){ alert(e.message); });
+        });
+        corpo.appendChild(rm);
+        item.appendChild(corpo);
+        cx.appendChild(item);
+      });
+    }).catch(function (e) { aviso(cx, 'aviso-erro', e.message || 'Falha ao carregar.'); });
+  }
+
+  /* ---------------- clientes ---------------- */
+
+  // cada serviço tem o seu tempo de retorno (retoque de raiz, hidratação, cor…):
+  // quem passou do prazo e não marcou é a cliente mais fácil de trazer de volta
+  var RETORNO = {};
+  (CFG.servicosDemoTodos || CFG.servicosDemo || []).forEach(function (s) { RETORNO[s.nome] = s.retorno_dias || 0; });
+  if (!CFG.modoDemo && DADOS.servicos) DADOS.servicos().then(function (l) { (l || []).forEach(function (s) { RETORNO[s.nome] = s.retorno_dias || 0; }); });
+  function retornoDe(nome) { return RETORNO[nome] || 0; }
+  var FRASE_RETORNO = {
+    'Iluminação / mechas': 'a raiz já deve estar aparecendo, tá na hora de retocar a iluminação',
+    'Ruivos': 'o ruivo já deve estar desbotando, tá na hora da manutenção',
+    'Coloração': 'a raiz já deve estar aparecendo, tá na hora de retocar a cor',
+    'Corte feminino': 'o corte já deve estar perdendo a forma, tá na hora de acertar',
+    'Ritual Kérastase': 'tá na hora do próximo tratamento pro fio seguir com brilho',
+    'Keratin Frizz': 'o efeito já deve estar saindo, tá na hora de refazer',
+    'Realinhamento capilar': 'o realinhamento já deve estar saindo, tá na hora de refazer'
+  };
+  // aniversário: no ar vem do cadastro da cliente; na demo é de exemplo, tirado do telefone
+  function aniversario(tel) {
+    if (!CFG.modoDemo) return null;
+    var n = 0; String(tel).split('').forEach(function(d){ n += +d; });
+    return { mes: n % 12, dia: (+String(tel).slice(-2) % 28) + 1 };
+  }
+
+  function pintaClientes() {
+    var cx = $('#lista-clientes');
+    var limite = (CFG.regras && CFG.regras.manutencaoDias) || 30;
+    $('#c-dias').textContent = limite;
+    cx.innerHTML = '<div class="carregando">Carregando…</div>';
+    DADOS.historico().then(function (lista) {
+      var hoje = iso(new Date()), mes = hoje.slice(0,7);
+      var porTel = {};
+      lista.forEach(function (a) {
+        var tel = String(a.telefone||'').replace(/\D/g,'');
+        if (!tel) return;
+        var c = porTel[tel] = porTel[tel] || { tel: tel, nome: a.nome, visitas: 0, faltas: 0, ultima: null, futura: null, unidade: a.unidade_id };
+        if (a.status === 'concluido') {
+          c.visitas++;
+          if (!c.ultima || a.dia > c.ultima.dia) { c.ultima = a; c.nome = a.nome; c.unidade = a.unidade_id; }
+        }
+        if (a.status === 'faltou') c.faltas++;
+        if (a.status === 'confirmado' && a.dia >= hoje && (!c.futura || a.dia < c.futura.dia)) c.futura = a;
+      });
+      var clientes = Object.keys(porTel).map(function (k) {
+        var c = porTel[k];
+        c.dias = c.ultima ? Math.round((deIso(hoje) - deIso(c.ultima.dia)) / 86400000) : null;
+        var prazo = c.ultima ? retornoDe(c.ultima.servico) : 0;
+        c.chamar = !!(!c.futura && c.ultima && prazo && c.dias >= prazo);
+        c.sumida = !!(!c.futura && c.ultima && c.dias >= ((CFG.regras && CFG.regras.sumidaDias) || 60));
+        c.niver = aniversario(c.tel);
+        return c;
+      }).filter(function (c) { return !unidade || c.unidade === unidade; });
+      var mesAtual = new Date().getMonth();
+      $('#c-total').textContent = clientes.length;
+      $('#c-sumidas').textContent = clientes.filter(function(c){ return c.sumida; }).length;
+      $('#c-fieis').textContent = clientes.filter(function(c){ return c.visitas >= 2; }).length;
+      $('#c-niver').textContent = clientes.filter(function(c){ return c.niver && c.niver.mes === mesAtual; }).length;
+
+      clientes.sort(function (a, b) {
+        if (a.sumida !== b.sumida) return a.sumida ? -1 : 1;
+        if (a.chamar !== b.chamar) return a.chamar ? -1 : 1;
+        return (b.dias == null ? -1 : b.dias) - (a.dias == null ? -1 : a.dias);
+      });
+
+      function desenha() {
+        var q = $('#c-busca').value.trim().toLowerCase(), qd = q.replace(/\D/g,'');
+        var vis = clientes.filter(function (c) {
+          if (cFiltro === 'sumidas' && !c.sumida) return false;
+          if (cFiltro === 'voltar' && !c.chamar) return false;
+          if (cFiltro === 'niver' && !(c.niver && c.niver.mes === mesAtual)) return false;
+          return !q || c.nome.toLowerCase().indexOf(q) >= 0 || (qd && c.tel.indexOf(qd) >= 0);
+        });
+        cx.innerHTML = '';
+        if (!vis.length) {
+          var v = el('div','vazio');
+          v.appendChild(el('b', null, q ? 'Ninguém com esse nome' : 'Nenhuma cliente ainda'));
+          v.appendChild(el('p', null, q ? 'Confira a grafia ou busque pelo WhatsApp.' : 'Assim que alguém agendar pelo site, aparece aqui.'));
+          cx.appendChild(v);
+          return;
+        }
+        vis.forEach(function (c) {
+          var item = el('div','agenda-item');
+          var h = el('div','agenda-hora', c.dias == null ? '—' : c.dias + 'd');
+          h.appendChild(el('small', null, c.dias == null ? 'ainda não veio' : 'da última visita'));
+          item.appendChild(h);
+          var corpo = el('div','agenda-corpo');
+          var topo = el('div'); topo.style.cssText = 'display:flex;gap:.5rem;align-items:center;flex-wrap:wrap';
+          topo.appendChild(el('strong', null, c.nome));
+          if (c.sumida) topo.appendChild(el('span','tag tag-alerta','Não volta há ' + c.dias + ' dias'));
+          else if (c.chamar) topo.appendChild(el('span','tag tag-alerta','Hora de voltar'));
+          if (!unidade && c.unidade) topo.appendChild(el('span','tag tag-barbeiro', curtoUn(c.unidade)));
+          if (c.niver && c.niver.mes === mesAtual) topo.appendChild(el('span','tag tag-ok','Aniversário ' + String(c.niver.dia).padStart(2,'0') + '/' + String(c.niver.mes+1).padStart(2,'0')));
+          if (c.futura) topo.appendChild(el('span','tag tag-ok','Marcada: ' + porExtenso(c.futura.dia).toLowerCase()));
+          if (c.faltas) topo.appendChild(el('span','tag tag-off', c.faltas + (c.faltas > 1 ? ' faltas' : ' falta')));
+          corpo.appendChild(topo);
+          var tel = c.tel.replace(/^55/,'');
+          var telFmt = tel.length === 11 ? '(' + tel.slice(0,2) + ') ' + tel.slice(2,7) + '-' + tel.slice(7) : tel;
+          corpo.appendChild(el('span', null,
+            (c.ultima ? 'Última: ' + c.ultima.servico + ' · ' : '') + c.visitas + (c.visitas === 1 ? ' visita' : ' visitas') + ' · ' + telFmt));
+          var acoes = el('div','acoes'); acoes.style.marginTop = '.6rem';
+          var primeiro = c.nome.replace(/\s*\(exemplo\)/,'').split(' ')[0];
+          var un = curtoUn(c.unidade);
+          var niverAgora = c.niver && c.niver.mes === mesAtual && cFiltro === 'niver';
+          var msg = niverAgora
+            ? 'Oi ' + primeiro + '! Aqui é da Nana ' + un + '. Seu aniversário tá chegando e a gente separou um mimo pra você no salão. Quer marcar um horário pra ficar ainda mais linda?'
+            : (c.sumida || c.chamar)
+            ? 'Oi ' + primeiro + '! Aqui é da Nana ' + un + '. Já faz ' + c.dias + ' dias do seu último atendimento (' + c.ultima.servico.toLowerCase() + '), ' + (FRASE_RETORNO[c.ultima.servico] || 'tá na hora de cuidar do cabelo de novo') + '. Quer que eu reserve um horário pra você essa semana?'
+            : 'Oi ' + primeiro + '! Aqui é da Nana ' + un + '.';
+          var zap = el('a','btn btn-zap mini', niverAgora ? 'Mandar parabéns' : (c.sumida || c.chamar) ? 'Chamar de volta' : 'WhatsApp');
+          zap.href = 'https://wa.me/55' + tel + '?text=' + encodeURIComponent(msg);
+          zap.target = '_blank'; zap.rel = 'noopener';
+          acoes.appendChild(zap);
+          corpo.appendChild(acoes);
+          item.appendChild(corpo);
+          cx.appendChild(item);
+        });
+      }
+      $('#c-busca').oninput = desenha;
+      Array.prototype.forEach.call(document.querySelectorAll('#c-chips button'), function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-c') === cFiltro ? 'true' : 'false');
+        b.onclick = function () { cFiltro = b.getAttribute('data-c'); Array.prototype.forEach.call(document.querySelectorAll('#c-chips button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); desenha(); };
+      });
+      desenha();
+    }).catch(function (e) { aviso(cx, 'aviso-erro', e.message || 'Falha ao carregar.'); });
+  }
+
+  /* ---------------- resultados do mês ---------------- */
+
+  function barras(cx, itens) {
+    cx.innerHTML = '';
+    var max = Math.max.apply(null, itens.map(function(i){ return i.v; }).concat([1]));
+    itens.forEach(function (i) {
+      var l = el('div','barra-linha');
+      l.appendChild(el('span', null, i.rot));
+      var tr = el('div','trilho'), f = el('i'); f.style.width = Math.round(i.v / max * 100) + '%'; tr.appendChild(f);
+      l.appendChild(tr);
+      l.appendChild(el('b', null, i.txt));
+      cx.appendChild(l);
+    });
+  }
+  function pintaResultados() {
+    DADOS.historico().then(function (lista) {
+      var hoje = iso(new Date()), mes = hoje.slice(0,7);
+      var doMes = lista.filter(function(a){ return String(a.dia).slice(0,7)===mes && (a.status==='concluido'||a.status==='confirmado'); });
+      barras($('#r-unidades'), CFG.unidades.map(function (u) {
+        var v = doMes.filter(function(a){ return a.unidade_id===u.id; }).reduce(function(s,a){ return s+(a.preco||0); },0);
+        return { rot: u.curto, v: v, txt: dinheiroCurto(v) };
+      }));
+      var doF = doMes.filter(doFiltro), orig = {};
+      doF.forEach(function(a){ orig[a.origem || 'Site direto'] = (orig[a.origem || 'Site direto'] || 0) + 1; });
+      barras($('#r-origem'), Object.keys(orig).sort(function(a,b){ return orig[b]-orig[a]; }).map(function (k) {
+        return { rot: k, v: orig[k], txt: orig[k] + ' (' + Math.round(orig[k] / doF.length * 100) + '%)' };
+      }));
+      var porTel = {};
+      lista.filter(doFiltro).forEach(function (a) {
+        var c = porTel[a.telefone] = porTel[a.telefone] || { ultima: null, futura: false, ticket: 0, n: 0 };
+        if (a.status==='concluido') { if (!c.ultima || a.dia > c.ultima) c.ultima = a.dia; c.ticket += (a.preco||0); c.n++; }
+        if (a.status==='confirmado' && a.dia >= hoje) c.futura = true;
+      });
+      var sum = 0, risco = 0;
+      Object.keys(porTel).forEach(function (k) {
+        var c = porTel[k];
+        if (c.ultima && !c.futura && (deIso(hoje) - deIso(c.ultima)) / 86400000 >= 60) { sum++; risco += c.n ? c.ticket / c.n : 0; }
+      });
+      var f = $('#r-funil'); f.innerHTML = '';
+      [[Object.keys(porTel).length, 'clientes na base'], [sum, 'não voltam há 60+ dias'], [dinheiroCurto(risco), 'em 1 visita de cada uma (estimativa)']]
+        .forEach(function (p) { var d = el('div'); d.appendChild(el('b', null, String(p[0]))); d.appendChild(el('span', null, p[1])); f.appendChild(d); });
+    });
+  }
+  $('#r-ver-sumidas').addEventListener('click', function () {
+    cFiltro = 'sumidas';
+    document.querySelector('.aba[data-aba="clientes"]').click();
+  });
+
+  /* ---------------- serviços e preços ---------------- */
+
+  function pintaServicos() {
+    var cx = $('#lista-servicos-adm');
+    cx.innerHTML = '<div class="carregando">Carregando…</div>';
+    DADOS.servicos().then(function (lista) {
+      cx.innerHTML = '';
+      lista.forEach(function (s) {
+        var linha = el('form','serv-linha');
+        var nome = el('div');
+        nome.appendChild(el('strong', null, s.nome));
+        var liga = el('label','liga');
+        var chk = el('input'); chk.type = 'checkbox'; chk.checked = s.ativo !== false;
+        liga.appendChild(chk); liga.appendChild(document.createTextNode('Aparece no site'));
+        nome.appendChild(liga);
+        linha.appendChild(nome);
+
+        var cp = el('div','campo'); cp.appendChild(el('label', null, 'Preço (R$)'));
+        var preco = el('input'); preco.type = 'text'; preco.inputMode = 'decimal'; preco.placeholder = 'sob consulta';
+        preco.value = s.preco_centavos ? (s.preco_centavos/100).toFixed(2).replace('.',',') : '';
+        cp.appendChild(preco); linha.appendChild(cp);
+
+        var cd = el('div','campo'); cd.appendChild(el('label', null, 'Tempo (min)'));
+        var dur = el('input'); dur.type = 'number'; dur.min = 15; dur.step = 15; dur.value = s.duracao_min;
+        cd.appendChild(dur); linha.appendChild(cd);
+
+        var bt = el('button','btn btn-escuro mini','Salvar'); bt.type = 'submit';
+        linha.appendChild(bt);
+
+        linha.addEventListener('submit', function (ev) {
+          ev.preventDefault();
+          var reais = preco.value.replace(/[^\d,.]/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.');
+          var campos = {
+            preco_centavos: reais ? Math.round(parseFloat(reais) * 100) : 0,
+            duracao_min: Math.max(15, parseInt(dur.value, 10) || s.duracao_min),
+            ativo: chk.checked
+          };
+          if (isNaN(campos.preco_centavos)) return aviso($('#msg-servicos'), 'aviso-erro', 'O preço de "' + s.nome + '" ficou estranho. Use só números, ex: 120,00');
+          $('#msg-servicos').innerHTML = '';
+          bt.disabled = true; bt.textContent = 'Gravando…';
+          DADOS.salvarServico(s, campos).then(function () {
+            bt.textContent = 'Salvo ✓';
+            setTimeout(function(){ bt.disabled = false; bt.textContent = 'Salvar'; }, 1400);
+          }).catch(function (e) {
+            bt.disabled = false; bt.textContent = 'Salvar';
+            aviso($('#msg-servicos'), 'aviso-erro', e.message || 'Não consegui salvar.');
+          });
+        });
+        cx.appendChild(linha);
+      });
+    }).catch(function (e) { aviso(cx, 'aviso-erro', e.message || 'Falha ao carregar.'); });
+  }
+
+  /* ---------------- eventos ---------------- */
+
+  $('#dia-menos').addEventListener('click', function () { diaAtual.setDate(diaAtual.getDate() - 1); pintaDia(); });
+  $('#dia-mais').addEventListener('click',  function () { diaAtual.setDate(diaAtual.getDate() + 1); pintaDia(); });
+  $('#dia-hoje').addEventListener('click',  function () { diaAtual = new Date(); pintaDia(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.aba'), function (aba) {
+    aba.addEventListener('click', function () {
+      Array.prototype.forEach.call(document.querySelectorAll('.aba'), function (x) {
+        x.setAttribute('aria-selected', x === aba ? 'true' : 'false');
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('.painel-aba'), function (p) {
+        if (p.getAttribute('data-painel') === aba.getAttribute('data-aba')) p.setAttribute('data-ativa','');
+        else p.removeAttribute('data-ativa');
+      });
+      atualizaTudo();
+    });
+  });
+  // admin.html#clientes abre direto na aba (atalho para a demonstração)
+  if (location.hash) setTimeout(function () {
+    var b = document.querySelector('.aba[data-aba="' + location.hash.slice(1) + '"]');
+    if (b && !$('#tela-painel').hidden) b.click();
+  }, 300);
+
+  $('#bl-tipo').addEventListener('change', function () { $('#campo-faixa').hidden = this.value !== 'faixa'; });
+
+  $('#form-bloqueio').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var cx = $('#msg-bloqueio');
+    var data = $('#bl-data').value;
+    if (!data) return aviso(cx, 'aviso-erro', 'Escolha o dia.');
+
+    var tipo = $('#bl-tipo').value, de, ate;
+    if (tipo === 'dia')          { de = '00:00'; ate = '23:59'; }
+    else if (tipo === 'feriado') { de = '14:00'; ate = '23:59'; }
+    else if (tipo === 'manha')   { de = '00:00'; ate = '12:00'; }
+    else if (tipo === 'tarde')   { de = '13:00'; ate = '23:59'; }
+    else                         { de = $('#bl-de').value; ate = $('#bl-ate').value; }
+    if (ate <= de) return aviso(cx, 'aviso-erro', 'A hora final tem que ser depois da inicial.');
+
+    DADOS.criarBloqueio({
+      barbeiro_id: $('#bl-quem').value || null,
+      data: data, hora_inicio: de, hora_fim: ate,
+      motivo: $('#bl-motivo').value.trim() || null
+    }).then(function () {
+      aviso(cx, 'aviso-ok', 'Pronto. Esse horário não aparece mais para o cliente.');
+      $('#bl-data').value = ''; $('#bl-motivo').value = '';
+      $('#campo-faixa').hidden = true; $('#bl-tipo').value = 'dia';
+      pintaBloqueios();
+    }).catch(function (e) { aviso(cx, 'aviso-erro', e.message || 'Não consegui salvar.'); });
+  });
+
+  /* ---------------- partida ---------------- */
+
+  function abrePainel(userId) {
+    DADOS.barbeiros().then(function (lista) {
+      barbeiros = lista;
+      var eu = lista.filter(function(b){ return userId && b.user_id === userId; })[0];
+      filtro = eu ? eu.id : null;
+      if (eu) unidade = eu.unidade;
+      if (eu) $('#quem-logado').textContent = 'Olá, ' + eu.nome;
+
+      var sel = $('#bl-quem');
+      sel.innerHTML = '';
+      lista.forEach(function (b) {
+        var o = el('option', null, b.nome + ' · ' + curtoUn(b.unidade)); o.value = b.id;
+        if (eu && eu.id === b.id) o.selected = true;
+        sel.appendChild(o);
+      });
+      var casa = el('option', null, 'A rede toda'); casa.value = '';
+      sel.appendChild(casa);
+
+      $('#tela-login').hidden = true;
+      $('#tela-painel').hidden = false;
+      atualizaTudo();
+    }).catch(function (e) { alert('Não consegui carregar a equipe: ' + e.message); });
+  }
+
+  if (DEMO) {
+    $('#faixa-demo').hidden = false;
+    $('#btn-sair').hidden = true;
+    abrePainel(null);
+    return;
+  }
+
+  sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey);
+
+  $('#form-login').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var cx = $('#msg-login');
+    aviso(cx, 'aviso-neutro', 'Entrando…');
+    sb.auth.signInWithPassword({ email: $('#lg-email').value.trim(), password: $('#lg-senha').value })
+      .then(function (r) {
+        if (r.error) return aviso(cx, 'aviso-erro', 'E-mail ou senha não conferem.');
+        cx.innerHTML = '';
+        abrePainel(r.data.user.id);
+      });
+  });
+
+  $('#btn-sair').addEventListener('click', function () { sb.auth.signOut().then(function () { location.reload(); }); });
+
+  sb.auth.getSession().then(function (r) {
+    if (r.data && r.data.session) abrePainel(r.data.session.user.id);
+    else $('#tela-login').hidden = false;
+  });
+
+})();
+</script>
+</body>
+</html>
